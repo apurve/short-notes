@@ -1,0 +1,1 @@
+Advantages of Lambda; enables functional programming, support for parallel processing, readeability, 

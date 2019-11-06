@@ -1,0 +1,24 @@
+Thread Safety - A class is thread-safe if it behaves correctly when accessed from multiple threads with no additional synchronization or other coordination on the part of the calling code.
+
+Local variables are stored on thread stack. Classes are thread-safe when they do not share state.
+
+OPTIMISTIC & PESSIMISTIC LOCKING
+Pessimistic locking first guarantee that no other thread will interfere in between certain operation but it put a significant penalty on your application in terms of performance.
+Optimistic locking relies on collision detection to determine if there has been interference from other parties during the update. (COMPARE AND SWAP ALGORITHM).
+
+SYNCHRONIZED KEYWORD - Allows for two types : synchronized block and synchronized method
+ 1. synchronized( lockObject ) { // synchronized statements, will throw NullPointerException if lockObject is null. }
+ 2. <access modifier> synchronized method( parameters ) { // synchronized code}
+Similar to synchronized block, a thread MUST acquire the lock on the associated monitor object with synchronized method. In case of synchronized method, the lock object is –
+- ‘.class’ object – if the method is static. - this is class level locking, prevents multiple threads to enter in synchronized block in any of all available instances of the class on runtime.
+- ‘this’ object – if the method is not static. - this is object level locking, to synchronize a non-static method or non-static code block such that only one thread will be able to execute the code block on given instance of the class.
+#Java synchronized keyword is re-entrant in nature it means if a synchronized method calls another synchronized method which requires same lock then current thread which is holding lock can enter into that method without acquiring lock.
+#According to the Java language specification you can not use synchronized keyword with constructor. It is illegal and result in compilation error.
+
+wait() - It tells the calling thread to give up the lock and go to sleep until some other thread enters the same monitor and calls notify().
+notify() & notifyAll() - It wakes up one single or highest priority thread that called wait() and the lock is not actually given up until the notifier’s synchronized block has completed.
+yield() - Yield tells the currently executing thread to give a chance to the threads that have equal priority in the Thread Pool. There is no guarantee that Yield will make the currently executing thread to runnable state immediately.
+join() - used to “join” the start of a thread’s execution to the end of another thread’s execution so that a thread will not start running until another thread has ended.
+sleep() - 
+
+#When a consumer wakes up, it cannot assume that the state it was waiting for is still valid. It may have been valid in the past, but the state may have been changed after the notify() method was called and before the consumer thread woke up. This is why we always put calls to the wait() method in a loop.
