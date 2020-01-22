@@ -1,0 +1,39 @@
+-- G1GC in detail
+-- GC tuning fundamentals
+-- Meta Sapce
+-- Stack & Heap
+
+Garbage collector finds and removes the unnecessary objects. It was created based on two principles (Weak Generational Hypothesis) :
+- most objects soon become unreachable
+- references from old objects to new objects only exist in small numbers
+
+# Stop-the-world will occur no matter which GC algorithm you choose.
+# System.gc() method affects system performance drastically.
+
+Generational Garbage Collection
+ - Young Generation - Objects are initialized here, since most objects soon become unreachable, they disappear from here which is called "minor GC". It is further divided in Eden, S0 & S1.
+ - Old Generation - Objects which survive young gen are moved here, it has bigger size and GC is preformed less frequently, called "major GC".
+ - Permanent Generation - It is also called "Method Area", classes and string are stored. Objects do not get promoted from OldGen to PermGen. GC may occur here and considered major GC.
+ - Card Table - It stores references of objects in OldGen to YoungGen. Minor GC refers this table to determine GC.
+
+Composition of Young Generation
+ - It consists of 3 spaces; 1 Eden space and 2 Survivor spaces to reduce the need to deal with fragmentation.
+ - New objects are allocated in Eden space.
+ - One of the Survivor spaces must remain empty.
+ - If data exists in both Survivor spaces, or the usage is 0 for both spaces, then something is wrong with the system.
+ 
+# Young Gen uses "bump-the-pointer" & TLAB (Thread local allocation buffer) for memory allocation.
+
+GC for the Old Generation
+
+"mark-sweep-compact"
+1. mark surviving objects
+2. check heap from front and leave only surviving objects
+3. fill heap from the front dividing heap in 2 parts: with objects and without objects
+
+Serial GC - It uses m-s-c algorithm. The serial GC is suitable for a small memory and a small number of CPU cores.
+Parallel GC - It uses several threads to process the GC algorithm.
+CMS - It marks and sweeps concurrently decreasing stop-world-pause. Initial Mark -> Conc Mark -> Re-mark -> Conc Sweep
+G1GC - Garbage first GC
+
+# Although CMS has small stop-world-pause but it uses more memory and CPU. It also does not provide any default compaction.
