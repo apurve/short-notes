@@ -1,0 +1,13 @@
+Swagger is a framework for declarative REST API document generation. It has 2 components :
+ - springfox-swagger2
+ - springfox-swagger-ui
+ 
+Swagger2 documentation can be generated in two ways :
+Top-down approach : Swagger.yaml files describe the API and swagger codegen will generate spring boot project.
+Bottom-up approach : Existing projects can be configured with swagger docket and adocumented is generated based on declarative annotations.
+
+Annotations of Swagger2 :
+ - @API(value, description)
+ - @APIOperation(value, responseClassType)
+ - @APIResponses(value = {@APIResponse(code,  message)})
+ - @ApiModelProperty(notes, name, required, value)

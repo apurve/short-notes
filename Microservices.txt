@@ -1,0 +1,70 @@
+Single autonomous services that work together. At the core theer are 3 main components :
+1.REST 2.Small well chosen deployable units 3.Cloud enabled
+
+Challenges with building microservices :
+1. Bounded context - What to do in a particular service? It is a evolutionary process based on the funcional knowledge gained.
+2. Configuration Management - Several services and services instances of each service leads to a lot of configuration.
+3. Dynamic scale up and scale down - Spawing and shuting of instances of services when required with dynamic load balancing.
+4. Visibility & Monitoring - Due to distributed transactions determining bugs requires great visibility and monitoring.
+5. Pack of Cards (fault tolerance) - One bad services and bring down the whole system thus fault tolerance is required.
+
+Spring Cloud (Solution to the above challenges) :
+1. Spring Cloud Config Server - All configuration can be stored in git repo and the server exposes it to services.
+2. Eureka Naming Server and Discovery + Ribbon Client Side Load Balancer + Feign Rest Client
+3. Zipkin Distributed Tracing Server + Zuul API Gateway
+4. Fault tolerance with Hystrix
+
+Advantages of Microservices :
+- Adaption of Tech
+- Dynamic Scaling
+- Faster Release Cycles
+
+Advantages to each of the service :
+- Highly maintainable and testable
+- Loosely coupled with other services
+- Independently deployable
+- Capable of being developed by a small team
+
+Disadvantages of microservices :
+- Additional complexity of creating distributed systems.
+- Deployment complexity
+- Increased memory consumption
+
+DECOMPOSING MONOLITHS TO MICROSERVICES - It makes sense to apply SRP and CCP (Common Closure Principle - change for same reason should be in same package). Following forces are in play while deciding on decomposition :
+- architecture must be stable
+- Services must be highly cohesive
+- service must be testeable
+- dev teams must be able to work autonomously (team size should be 2 pizza team)
+
+Decompose by Business Capability - Something that a business does in order to generate value
+Decompose by SubDomain - Domain Driven Design refer to application's problem space - the business as a domain. Subdomains can be classified as below :
+- Core - key differentiator of the business or most valuable part of the application
+- Supporting - related to the business but not a differentiator, it can be outsourced
+- Generic - not specific to be business, ideally implemented using off the shelf software
+Self contained service
+Service per team
+
+DATA MANAGEMENT
+Each microservice’s persistent data is kept private to that service and accessible only via its API. A service’s transactions only involve its database. If you are using a relational database then the options are:
+ - Private-tables-per-service
+ - Schema-per-service
+ - Database-server-per-service
+
+Advantages of DB server per service : Lose coupling and each service can choose the type of DB specific to its needs.
+Disadvantages : Implementing transactions and queries that span multiple services, managing multiple SQL and NoSQL DBs.
+# Transactions spanning multiple services are handled with SAGA pattern
+# Queries spanning multiple services are handled with API Composition (API gateway often does this) or CQRS (Command Query Responsibility Segregation)
+
+SAGA Pattern
+A saga is a sequence of local transactions. Each local transaction updates the database and publishes a message or event to trigger the next local transaction in the saga. If a local transaction fails because it violates a business rule then the saga executes a series of compensating transactions that undo the changes that were made by the preceding local transactions.
+
+Unlike ACID transactions sagas cannot automatically rollback transactions. Thus we need compensating transactions.
+Also the services must implement coordination mechanism that decides the sequencing of the steps and triggers their execution.
+
+Choreography based Coordination : The saga participants subscribe to each other’s events and respond accordingly. When a service updates its data, it simply emits a domain event announcing what it has done. Other services subscribe to those events, which trigger updates that emit additional events.
+
+Orchestration based Coordination : To execute a saga step, saga Orchestrator sends a command message to a participant telling it what operation to perform. After the saga participant has performed the operation, it sends a reply message to the orchestrator.
+# Eventaute TRAM framework enables simple and easy orchestration.
+
+API COMPOSITION - Invoking the services that own the data and performs an in-memory join of the results. It will fall apart if the reports are big.
+CQRS (Command Query Responsibility Segregation) - It is based on an event based push model. The reporting services maintain their own view database view, the data capture services keep this DB up to data by subscribing to domain events published by service that owns the data.

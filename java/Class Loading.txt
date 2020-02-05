@@ -1,0 +1,7 @@
+Objects which are responsible for loading classes into JVM.
+
+Bootstrap/Primordial Class Loader - Responsible for loading rt.jar
+Extension Class Loader - 
+System/Application Class Loader - 
+
+Class r = load(String className, int resolveIt)
