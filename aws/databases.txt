@@ -23,8 +23,14 @@ RED SHIFT is a petabyte-scale distributed data ware house based on PostgresSQL.
  - columunar data storage
  - high data compression
  
- Amazon EMR - Elastic Map Reduce - for big data frameworks like Apache Apark, hadoop, hbase ex ML, graph analytics
- Amazon Redshift - To query data warehouse both structured and unstructured data pulled in various data sources
- Amazon Redshift Spectrum - To query S3 directly
- Amazon Athena - For adhoc serverless querying
- 
+Amazon RDS - Cloud OLTP DB
+Amazon EMR - Elastic Map Reduce - for big data frameworks like Apache Apark, hadoop, hbase ex ML, graph analytics
+Amazon Redshift - Cloud OLAP DB, to query data warehouse both structured and unstructured data pulled in various data sources
+Amazon Redshift Spectrum - To query S3 directly
+Amazon Athena - For adhoc serverless querying
+DynamoDB - Document store in cloud
+DocumentDB - Clond Managed MangoDB
+Amazon Elastic Cache - cloud caching solution; redis - persistent cache, memcache - simple data
+Amazon Neptune - Managed Graph Database
+Amazon Keyspaces - Managed Cassandra
+
