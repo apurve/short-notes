@@ -1,0 +1,30 @@
+Ensurung Availability & Durability
+    - Creating snapshots solves the issues but makes the DB slow.
+    - Combining regural snapshots with tansaction logs solves slowness issue too.
+    - Additionally we can introduce a Standby DB which is a mainatained vis synchronous replication.
+    (Usually snapshots, transaction logs and replicas are maintained in different AZs)
+
+Avaialbility - Will data be accessible whenever it is needed? 4-9s is preffered
+Durability - Will I be able to access my data after 10, 100, 1000 years? 11-9s is preffered
+
+RPO - Recovery Point Objective - Maximum acceptable period of data lose
+RTO - Recovery Time Objective - Maximum acceptable downtime
+
+HOT Standby - automatic synchronization of data, a standby is always ready to and automatic failover switches from master to slave DB (RPO-1min, RTO-5mins)
+WARM Standby - automatic synchronization of data, standby is swapped when failure ocurs (RPO-1min, RTO-15mins)
+Backup - snapshots and transaction logs are created regularly (RPO-1min, RTO-few hours)
+
+String Consistency - Synchronous replication
+Eventual Consistency - Asysnc replication
+Read-after Writes Consistency
+
+RED SHIFT is a petabyte-scale distributed data ware house based on PostgresSQL.
+ - MPP, Massively Parallel Processing - storage and processing can be split accross several nodes
+ - columunar data storage
+ - high data compression
+ 
+ Amazon EMR - Elastic Map Reduce - for big data frameworks like Apache Apark, hadoop, hbase ex ML, graph analytics
+ Amazon Redshift - To query data warehouse both structured and unstructured data pulled in various data sources
+ Amazon Redshift Spectrum - To query S3 directly
+ Amazon Athena - For adhoc serverless querying
+ 
