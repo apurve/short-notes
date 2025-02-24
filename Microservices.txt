@@ -1,4 +1,4 @@
-Single autonomous services that work together. At the core theer are 3 main components :
+Single autonomous services that work together. At the core there are 3 main components :
 1.REST 2.Small well chosen deployable units 3.Cloud enabled
 
 Challenges with building microservices :
